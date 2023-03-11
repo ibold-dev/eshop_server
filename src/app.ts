@@ -13,7 +13,7 @@ const app = express();
 // Constants
 const PORT = 3000;
 const DB =
-    "mongodb+srv://rivaan:rivaan123@cluster0.wpyhk.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";
+    "mongodb+srv://eshopadmin:eshopcluster@eshopcluster0.fxevh3k.mongodb.net/?retryWrites=true&w=majority";
 
 // middleware
 app.use(morgan('combined'));
