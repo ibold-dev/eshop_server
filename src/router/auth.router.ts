@@ -16,7 +16,7 @@ authRouter.post("/api/signup", async (req: any, res: any) => {
         if (existingUser) {
             return res
                 .status(400)
-                .json({ msg: "User with same email already exists!" });
+                .json({ error: "User with same email already exists!" });
         }
 
         const hashedPassword = await hashSync(password, 8);
@@ -27,7 +27,7 @@ authRouter.post("/api/signup", async (req: any, res: any) => {
             name,
         });
         user = await user.save();
-        res.json(user);
+        res.status(200).json(user);
     } catch (e: any) {
         res.status(500).json({ error: e.message });
     }
@@ -43,12 +43,12 @@ authRouter.post("/api/signin", async (req: any, res: any) => {
         if (!user) {
             return res
                 .status(400)
-                .json({ msg: "User with this email does not exist!" });
+                .json({ error: "User with this email does not exist!" });
         }
 
         const isMatch = await compareSync(password, user.password);
         if (!isMatch) {
-            return res.status(400).json({ msg: "Incorrect password." });
+            return res.status(400).json({ error: "Incorrect password." });
         }
 
         const token = jwt.sign({ id: user._id }, "passwordKey");
@@ -76,7 +76,7 @@ authRouter.post("/tokenIsValid", async (req, res) => {
 // get user data
 authRouter.get("/", auth, async (req: any, res: any) => {
     const user: any = await User.findById(req.user);
-    res.json({ ...user._doc, token: req.token });
+    res.status(200).json({ ...user._doc, token: req.token });
 });
 
 export default authRouter;
